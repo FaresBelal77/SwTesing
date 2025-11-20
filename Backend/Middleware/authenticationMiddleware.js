@@ -1,13 +1,19 @@
 const jwt = require("jsonwebtoken");
 
-const extractToken = (req) => {
+const extractToken = (req = {}) => {
   if (req.cookies?.token) {
     return req.cookies.token;
   }
 
-  const authHeader = req.headers.authorization || req.headers.Authorization;
-  if (authHeader && authHeader.startsWith("Bearer ")) {
+  const headers = req.headers || {};
+  const authHeader = headers.authorization || headers.Authorization;
+  if (typeof authHeader === "string" && authHeader.startsWith("Bearer ")) {
     return authHeader.split(" ")[1];
+  }
+
+  const token = headers["x-access-token"] || headers["x-auth-token"];
+  if (token) {
+    return token;
   }
 
   return null;

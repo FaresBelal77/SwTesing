@@ -1,6 +1,6 @@
-import Feedback from "../models/FeedbackSchema.js";
+const Feedback = require("../models/FeedbackSchema");
 
-export const submitFeedback = async (req, res) => {
+const submitFeedback = async (req, res) => {
   try {
     const { rating, comment, customer } = req.body || {};
     const customerId = req.user?.id || req.user?._id || customer;
@@ -38,7 +38,7 @@ export const submitFeedback = async (req, res) => {
   }
 };
 
-export const viewFeedback = async (req, res) => {
+const viewFeedback = async (req, res) => {
   try {
     const { feedbackId } = req.params;
 
@@ -65,7 +65,7 @@ export const viewFeedback = async (req, res) => {
   }
 };
 
-export const viewAllFeedbacks = async (req, res) => {
+const viewAllFeedbacks = async (req, res) => {
   try {
     const feedback = await Feedback.find({})
       .populate("customer", "name email")
@@ -85,7 +85,7 @@ export const viewAllFeedbacks = async (req, res) => {
   }
 };
 
-export default {
+module.exports = {
   submitFeedback,
   viewFeedback,
   viewAllFeedbacks,
