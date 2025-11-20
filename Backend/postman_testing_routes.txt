@@ -12,7 +12,7 @@ Base Setup
 
 Authentication Flow
 -------------------
-Step A1 – Register (one-time setup)
+Step A1 – Register (one-time setup)                     DONE
 - Method/URL: `POST {{baseUrl}}/auth/register`
 - Body (raw JSON):
   {
@@ -23,7 +23,7 @@ Step A1 – Register (one-time setup)
   }
 - Expect: `201 Created` with confirmation message.
 
-Step A2 – Login (fetch JWT for protected routes)
+Step A2 – Login (fetch JWT for protected routes)             DONE
 - Method/URL: `POST {{baseUrl}}/auth/login`
 - Body:
   {
@@ -32,7 +32,7 @@ Step A2 – Login (fetch JWT for protected routes)
   }
 - Expect: `200 OK` with `token`. Copy the value into the environment variable `authToken`.
 
-Step A3 – Forgot Password (optional)
+Step A3 – Forgot Password (optional)                         DONE
 - Method/URL: `PUT {{baseUrl}}/auth/forgetPassword`
 - Body:
   {
@@ -42,20 +42,20 @@ Step A3 – Forgot Password (optional)
 - Expect: `200 OK` confirmation. Re-run the login step with the new password.
 
 Step A4 – Logout
-- Method/URL: `POST {{baseUrl}}/auth/logout`
+- Method/URL: `POST {{baseUrl}}/auth/logout`                DONE
 - Expect: `200 OK`. Postman must remove any saved cookie headers if present.
 
 Menu Module
------------
-Step M1 – List public menu
+----------- 
+Step M1 – List public menu                                            DONE
 - Method/URL: `GET {{baseUrl}}/menu/list`
-- Optional query params: `?category=main&available=true&search=pasta&limit=10&skip=0`
+- Optional query params: `?category=main&available=true&search=pasta&limit=10&skip=0`    
 - Expect: `200 OK` array of menu items.
 
 Step M2 – Add menu item (admin)
 - Method/URL: `POST {{baseUrl}}/menu/add`
 - Headers: include `Authorization`.
-- Body:
+- Body:                                                 DONE
   {
     "name": "Margherita Pizza",
     "description": "Classic with mozzarella",
@@ -65,23 +65,23 @@ Step M2 – Add menu item (admin)
   }
 - Expect: `201 Created` with the saved item.
 
-Step M3 – Edit menu item (admin)
+Step M3 – Edit menu item (admin) DONE
 - Method/URL: `PUT {{baseUrl}}/menu/edit/{{menuId}}`
-- Body example:
+- Body example:                                          
   {
     "price": 13.75,
     "available": false
   }
 - Expect: `200 OK` with updated document.
 
-Step M4 – Delete menu item (admin)
+Step M4 – Delete menu item (admin) DONE
 - Method/URL: `DELETE {{baseUrl}}/menu/delete/{{menuId}}`
 - Expect: `200 OK` with deletion message.
 
 Reservations Module
--------------------
-Step R1 – Create reservation (customer)
-- Method/URL: `POST {{baseUrl}}/reservations/users/reservations`
+------------------- 
+Step R1 – Create reservation (customer)   DONE
+- Method/URL: `POST {{baseUrl}}/reservations/users/reservations`  
 - Body:
   {
     "date": "2025-01-05",
@@ -91,16 +91,16 @@ Step R1 – Create reservation (customer)
   }
 - Expect: `201 Created` with reservation info. Conflicts return `409`.
 
-Step R2 – View own reservations (customer)
+Step R2 – View own reservations (customer) DONE
 - Method/URL: `GET {{baseUrl}}/reservations/users/reservations`
 - Expect: `200 OK` with `reservations` array.
 
-Step R3 – View all reservations (admin)
+Step R3 – View all reservations (admin) DONE
 - Method/URL: `GET {{baseUrl}}/reservations/reservations`
 - Optional query: `?status=confirmed`
 - Expect: `200 OK` list with populated `customer` fields.
 
-Step R4 – Update reservation status (admin)
+Step R4 – Update reservation status (admin) DONE
 - Method/URL: `PATCH {{baseUrl}}/reservations/reservations/{{reservationId}}`
 - Body:
   {
@@ -111,7 +111,7 @@ Step R4 – Update reservation status (admin)
 
 Feedback Module
 ---------------
-Step F1 – Submit feedback (customer or admin)
+Step F1 – Submit feedback (customer or admin) DONE
 - Method/URL: `POST {{baseUrl}}/feedback`
 - Body:
   {
@@ -120,17 +120,17 @@ Step F1 – Submit feedback (customer or admin)
   }
 - Expect: `201 Created` with `feedback` object.
 
-Step F2 – View all feedback (admin)
+Step F2 – View all feedback (admin) DONE
 - Method/URL: `GET {{baseUrl}}/feedback`
 - Expect: `200 OK` with `count` and array.
 
-Step F3 – View single feedback (admin or owner)
+Step F3 – View single feedback (admin or owner) DONE
 - Method/URL: `GET {{baseUrl}}/feedback/{{feedbackId}}`
 - Expect: `200 OK` with populated customer reference.
 
 Orders Module
 -------------
-Step O1 – Create order (customer/admin)
+Step O1 – Create order (customer/admin) DONE
 - Method/URL: `POST {{baseUrl}}/orders/create`
 - Body:
   {
@@ -143,17 +143,17 @@ Step O1 – Create order (customer/admin)
   }
 - Expect: `201 Created` with `data` containing total price.
 
-Step O2 – Get current user orders
+Step O2 – Get current user orders DONE
 - Method/URL: `GET {{baseUrl}}/orders/user`
 - Optional query: `?customerId={{userId}}` (only if acting as admin for another user).
 - Expect: `200 OK` with populated items.
 
-Step O3 – Get all orders (admin)
+Step O3 – Get all orders (admin) DONE
 - Method/URL: `GET {{baseUrl}}/orders/all`
 - Optional queries: `?status=pending&orderType=takeaway`
 - Expect: `200 OK` array with customer + reservation details.
 
-Step O4 – Update order status (admin)
+Step O4 – Update order status (admin) DONE
 - Method/URL: `PATCH {{baseUrl}}/orders/update/{{orderId}}`
 - Body:
   {
@@ -161,7 +161,7 @@ Step O4 – Update order status (admin)
   }
 - Allowed statuses: `pending`, `preparing`, `completed`, `cancelled`.
 
-Step O5 – Add item to order (owner/admin)
+Step O5 – Add item to order (owner/admin) DONE byethy2ly
 - Method/URL: `POST {{baseUrl}}/orders/{{orderId}}/items`
 - Body:
   {
@@ -170,7 +170,7 @@ Step O5 – Add item to order (owner/admin)
   }
 - Expect: `200 OK` with recalculated totals.
 
-Step O6 – Remove item from order (owner/admin)
+Step O6 – Remove item from order (owner/admin)   DONE
 - Method/URL: `DELETE {{baseUrl}}/orders/{{orderId}}/items`
 - Body:
   {
@@ -178,7 +178,7 @@ Step O6 – Remove item from order (owner/admin)
   }
 - Expect: `200 OK` when item removed.
 
-Step O7 – Delete order (owner/admin)
+Step O7 – Delete order (owner/admin)  DONE
 - Method/URL: `DELETE {{baseUrl}}/orders/{{orderId}}`
 - Expect: `200 OK` success message.
 

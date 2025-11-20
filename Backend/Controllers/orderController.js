@@ -101,8 +101,8 @@ const recalculateOrderTotalAndSave = async (order) => {
 
 exports.createOrder = asyncHandler(async (req, res) => {
   const { items, orderType = "dine-in", reservationId } = req.body;
-  const customerId = req.user?._id || req.body.customerId;
-
+  const customerId =
+    req.user?._id || req.user?.id || req.body.customerId;
   if (!customerId) {
     return res
       .status(400)

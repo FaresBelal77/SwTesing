@@ -23,10 +23,7 @@ module.exports = function authenticationMiddleware(req, res, next) {
     return res.status(401).json({ message: "Authentication token required" });
   }
 
-  // ⛔ Your previous secretKey was: const secretKey = 1234;
-  // ❌ jwt.verify expects a STRING, not a number.
-  // ✔ Use a hardcoded string if you don't want .env
-  const secretKey = "my_super_secret_key";
+  const secretKey =  "1234";
 
   if (!secretKey) {
     return res.status(500).json({
