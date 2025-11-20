@@ -7,3 +7,7 @@ node_modules
 .env.development
 .env.test
 .env.production
+package-lock.json
+package.json
+postman_testing_routes.txt
+postman_testing_routes.txt
