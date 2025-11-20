@@ -1,21 +1,24 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const FeedbackSchema = new mongoose.Schema(
-  {
-    customer: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+const FeedbackSchema = new Schema(
+    {
+      customer: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+  
+      rating: {
+        type: Number,
+        min: 1,
+        max: 5,
+        required: true,
+      },
+  
+      comment: { type: String },
+  
     },
-    rating: {
-      type: Number,
-      min: 1,
-      max: 5,
-      required: true,
-    },
-    comment: { type: String },
-  },
-  { timestamps: true }
-);
-
-module.exports = mongoose.model("Feedback", FeedbackSchema);
+    { timestamps: true }
+  );
+  
+export default model("Feedback", FeedbackSchema);
