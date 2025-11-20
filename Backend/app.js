@@ -1,7 +1,12 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-require("dotenv").config();
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+
+import authorizationMiddleware from "./Middleware/authorizationMiddleware.js";
+import feedBackRouter from "./Router/feedBackRouter.js";
+
+dotenv.config();
 
 const app = express();
 
@@ -51,5 +56,5 @@ app.use((req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
