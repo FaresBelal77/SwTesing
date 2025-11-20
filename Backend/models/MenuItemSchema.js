@@ -6,12 +6,12 @@ const MenuItemSchema = new Schema(
   
       price: { type: Number, required: true },
   
-      category: { type: String }, // Drinks, Pizza, Dessert, etc.
-  
-      available: {
-        type: Boolean,
-        default: true,
+      category: { type: String,
+        enum: [ "Breakfast","Main course", "Appetizers", "Salads", "Soups", "Desserts", "Drinks","Extras"],
+        required: true,
       },
+  
+      available: { type: Boolean, default: true },
     },
     { timestamps: true }
   );
