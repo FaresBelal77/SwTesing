@@ -1,29 +1,36 @@
 const jwt = require("jsonwebtoken");
-const secretKey = process.env.SECRET_KEY||'1234'
+
+const extractToken = (req) => {
+  if (req.cookies?.token) {
+    return req.cookies.token;
+  }
+
+  const authHeader = req.headers.authorization || req.headers.Authorization;
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    return authHeader.split(" ")[1];
+  }
+
+  return null;
+};
 
 module.exports = function authenticationMiddleware(req, res, next) {
-  const cookie = req.cookies;
-  console.log('secretKey type:', typeof secretKey);
-
-
-  console.log('SECRET_KEY:', secretKey);  
-  console.log('inside auth middleware')
-
-  if (!cookie) {
-    return res.status(401).json({ message: "No Cookie provided" });
-  }
-  const token = cookie.token;
+  const token = extractToken(req);
   if (!token) {
-    return res.status(405).json({ message: "No token provided" });
+    return res.status(401).json({ message: "Authentication token required" });
   }
-console.log('Token:', token);
+
+  const secretKey = process.env.SECRET_KEY;
+  if (!secretKey) {
+    return res
+      .status(500)
+      .json({ message: "Server misconfiguration: SECRET_KEY missing" });
+  }
 
   jwt.verify(token, secretKey, (error, decoded) => {
     if (error) {
-      return res.status(403).json({ message: error.message});
+      return res.status(403).json({ message: error.message });
     }
-    
-    console.log("Decoded JWT payload:", decoded); 
+
     req.user = decoded;
     next();
   });
