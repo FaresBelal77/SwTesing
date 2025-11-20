@@ -1,19 +1,17 @@
 const express = require("express");
-require("dotenv").config()
+require("dotenv").config( {quiet: true} )
 const app = express();
 const mongoose = require('mongoose');
 
-/*import authRoutes from "./routes/authRoutes.js";
-import menuRoutes from "./routes/menuRoutes.js";
-import reservationRoutes from "./routes/reservationRoutes.js";
-import orderRoutes from "./routes/orderRoutes.js";
-import feedbackRoutes from "./routes/feedbackRoutes.js";*/
+const authRoutes = require("./Routes/authRoutes");
+
 
 const cors=require('cors');
 app.use(cors());
 
+
 app.use(express.json());
-mongoose.connect('mongodb+srv://testing:ambaleh@restaurant.pumi6d7.mongodb.net/?appName=Restaurant')
+mongoose.connect('mongodb+srv://testing:1234@restaurant.pumi6d7.mongodb.net/?appName=Restaurant')
 
 .then(() => {
     console.log("MongoDB has been connected");
@@ -23,11 +21,8 @@ mongoose.connect('mongodb+srv://testing:ambaleh@restaurant.pumi6d7.mongodb.net/?
     process.exit(1)// mn el a5er  1 ----> error..... we 0----> eshta 3alek
 });
 
-/*app.use("/api/auth", authRoutes);
-app.use("/api/menu", menuRoutes);
-app.use("/api/reservations", reservationRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/feedback", feedbackRoutes);*/
+app.use("/api/auth", authRoutes);
+
 
 
 
@@ -48,3 +43,4 @@ app.use((req, res) => {
 
 const PORT =3000;
 app.listen(PORT, () => console.log("server started on port 3000"));
+//console.log(process.env.MONGO_USER, process.env.MONGO_PASS);
