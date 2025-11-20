@@ -1,15 +1,14 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-require("dotenv").config();
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import dotenv from "dotenv";
+
+import authorizationMiddleware from "./Middleware/authorizationMiddleware.js";
+import feedBackRouter from "./Router/feedBackRouter.js";
+
+dotenv.config();
 
 const app = express();
-
-/*import authRoutes from "./routes/authRoutes.js";
-import menuRoutes from "./routes/menuRoutes.js";
-import reservationRoutes from "./routes/reservationRoutes.js";
-import orderRoutes from "./routes/orderRoutes.js";
-import feedbackRoutes from "./routes/feedbackRoutes.js";*/
 
 app.use(cors());
 
@@ -29,11 +28,8 @@ mongoose
     process.exit(1); // 1 -> error, 0 -> success
   });
 
-/*app.use("/api/auth", authRoutes);
-app.use("/api/menu", menuRoutes);
-app.use("/api/reservations", reservationRoutes);
-app.use("/api/orders", orderRoutes);
-app.use("/api/feedback", feedbackRoutes);*/
+app.use("/api/auth", authorizationMiddleware);
+app.use("/api/feedback", feedBackRouter);
 
 
 
