@@ -1,3 +1,5 @@
+import { Schema, model } from "mongoose";
+
 const FeedbackSchema = new Schema(
     {
       customer: {
@@ -19,4 +21,4 @@ const FeedbackSchema = new Schema(
     { timestamps: true }
   );
   
-  export default model("Feedback", FeedbackSchema)
+export default model("Feedback", FeedbackSchema);
