@@ -8,15 +8,13 @@ const app = express();
 /*import authRoutes from "./routes/authRoutes.js";
 import menuRoutes from "./routes/menuRoutes.js";
 import reservationRoutes from "./routes/reservationRoutes.js";
-import orderRoutes from "./routes/orderRoutes.js";
 import feedbackRoutes from "./routes/feedbackRoutes.js";*/
+const orderRoutes = require("./Routes/orderRoutes");
 
 app.use(cors());
 
 app.use(express.json());
-
-const mongoUri = 'mongodb+srv://testing:1234@restaurant.pumi6d7.mongodb.net/?appName=Restaurant';
-
+mongoose.connect('mongodb+srv://testing:1234@restaurant.pumi6d7.mongodb.net/?appName=Restaurant')
 
 mongoose
   .connect(mongoUri, {
@@ -32,8 +30,9 @@ mongoose
 /*app.use("/api/auth", authRoutes);
 app.use("/api/menu", menuRoutes);
 app.use("/api/reservations", reservationRoutes);
-app.use("/api/orders", orderRoutes);
 app.use("/api/feedback", feedbackRoutes);*/
+
+app.use("/orders", orderRoutes);
 
 
 

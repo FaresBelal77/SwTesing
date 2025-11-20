@@ -1,3 +1,5 @@
+const { Schema, model } = require("mongoose");
+
 const MenuItemSchema = new Schema(
     {
       name: { type: String, required: true },
@@ -16,4 +18,4 @@ const MenuItemSchema = new Schema(
     { timestamps: true }
   );
   
-  export default model("MenuItem", MenuItemSchema);
+module.exports = model("MenuItem", MenuItemSchema);

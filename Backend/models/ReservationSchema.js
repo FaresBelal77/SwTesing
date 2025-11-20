@@ -1,3 +1,5 @@
+const { Schema, model } = require("mongoose");
+
 const ReservationSchema = new Schema(
     {
       customer: {
@@ -20,4 +22,4 @@ const ReservationSchema = new Schema(
     { timestamps: true }
   );
   
-  export default model("Reservation", ReservationSchema);
+module.exports = model("Reservation", ReservationSchema);
