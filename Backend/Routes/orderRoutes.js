@@ -8,6 +8,9 @@ const {
   getUserOrders,
   getAllOrders,
   updateOrderStatus,
+  addMenuItemToOrder,
+  removeMenuItemFromOrder,
+  deleteOrder,
 } = require("../Controllers/orderController");
 
 router.post(
@@ -36,6 +39,27 @@ router.patch(
   authenticationMiddleware,
   authorizationMiddleware(["admin"]),
   updateOrderStatus
+);
+
+router.post(
+  "/:id/items",
+  authenticationMiddleware,
+  authorizationMiddleware(["customer", "admin"]),
+  addMenuItemToOrder
+);
+
+router.delete(
+  "/:id/items",
+  authenticationMiddleware,
+  authorizationMiddleware(["customer", "admin"]),
+  removeMenuItemFromOrder
+);
+
+router.delete(
+  "/:id",
+  authenticationMiddleware,
+  authorizationMiddleware(["customer", "admin"]),
+  deleteOrder
 );
 
 module.exports = router;
