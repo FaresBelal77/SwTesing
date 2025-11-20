@@ -1,4 +1,6 @@
 /******** CONTROLLERS: /controllers/menuController.js (imperative logic, fixed syntax) ********/
+const MenuItem = require("../models/MenuItemSchema");
+
 const menuController = {
     // Create menu item (admin only)
     async addMenuItem(req, res) {

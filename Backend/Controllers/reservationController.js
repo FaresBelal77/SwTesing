@@ -1,9 +1,6 @@
 const { validationResult } = require("express-validator");
 const Reservation = require("../models/ReservationSchema");
-const User = require("../models/UserSchema");
-const Feedback = require("../models/FeedbackSchema");
-const orderSchema = require("../models/OrderSchema");
-const menuItemSchema = require("../models/MenuItemSchema");
+
 
 const ACTIVE_STATES = ["pending", "confirmed"];
 
@@ -60,7 +57,7 @@ const reservationController = {
       });
     } catch (error) {
       console.error("createReservation error:", error);
-      return res.status(500).json({ message: "Unable to create reservation" });
+      return res.status(500).json({ message: "Unable to create reservation"  + 'el7a2ona'});
     }
   },
 

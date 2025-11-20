@@ -1,0 +1,198 @@
+Postman Testing Routes – Step-by-Step Guide
+==========================================
+
+Base Setup
+----------
+1. Create a Postman environment with:
+   - `baseUrl` = `http://localhost:3000/api`
+   - `authToken` = *(leave empty; will be filled after login)*
+2. For every JSON request set header `Content-Type: application/json`.
+3. For protected routes add header `Authorization: Bearer {{authToken}}`.
+4. In each request tab enable “Automatically follow redirects”.
+
+Authentication Flow
+-------------------
+Step A1 – Register (one-time setup)
+- Method/URL: `POST {{baseUrl}}/auth/register`
+- Body (raw JSON):
+  {
+    "name": "Test Admin",
+    "email": "admin@example.com",
+    "password": "Admin@123",
+    "role": "admin"
+  }
+- Expect: `201 Created` with confirmation message.
+
+Step A2 – Login (fetch JWT for protected routes)
+- Method/URL: `POST {{baseUrl}}/auth/login`
+- Body:
+  {
+    "email": "admin@example.com",
+    "password": "Admin@123"
+  }
+- Expect: `200 OK` with `token`. Copy the value into the environment variable `authToken`.
+
+Step A3 – Forgot Password (optional)
+- Method/URL: `PUT {{baseUrl}}/auth/forgetPassword`
+- Body:
+  {
+    "email": "admin@example.com",
+    "password": "NewPass@123"
+  }
+- Expect: `200 OK` confirmation. Re-run the login step with the new password.
+
+Step A4 – Logout
+- Method/URL: `POST {{baseUrl}}/auth/logout`
+- Expect: `200 OK`. Postman must remove any saved cookie headers if present.
+
+Menu Module
+-----------
+Step M1 – List public menu
+- Method/URL: `GET {{baseUrl}}/menu/list`
+- Optional query params: `?category=main&available=true&search=pasta&limit=10&skip=0`
+- Expect: `200 OK` array of menu items.
+
+Step M2 – Add menu item (admin)
+- Method/URL: `POST {{baseUrl}}/menu/add`
+- Headers: include `Authorization`.
+- Body:
+  {
+    "name": "Margherita Pizza",
+    "description": "Classic with mozzarella",
+    "price": 12.5,
+    "category": "pizza",
+    "available": true
+  }
+- Expect: `201 Created` with the saved item.
+
+Step M3 – Edit menu item (admin)
+- Method/URL: `PUT {{baseUrl}}/menu/edit/{{menuId}}`
+- Body example:
+  {
+    "price": 13.75,
+    "available": false
+  }
+- Expect: `200 OK` with updated document.
+
+Step M4 – Delete menu item (admin)
+- Method/URL: `DELETE {{baseUrl}}/menu/delete/{{menuId}}`
+- Expect: `200 OK` with deletion message.
+
+Reservations Module
+-------------------
+Step R1 – Create reservation (customer)
+- Method/URL: `POST {{baseUrl}}/reservations/users/reservations`
+- Body:
+  {
+    "date": "2025-01-05",
+    "time": "19:30",
+    "numberOfGuests": 4,
+    "notes": "Window seat"
+  }
+- Expect: `201 Created` with reservation info. Conflicts return `409`.
+
+Step R2 – View own reservations (customer)
+- Method/URL: `GET {{baseUrl}}/reservations/users/reservations`
+- Expect: `200 OK` with `reservations` array.
+
+Step R3 – View all reservations (admin)
+- Method/URL: `GET {{baseUrl}}/reservations/reservations`
+- Optional query: `?status=confirmed`
+- Expect: `200 OK` list with populated `customer` fields.
+
+Step R4 – Update reservation status (admin)
+- Method/URL: `PATCH {{baseUrl}}/reservations/reservations/{{reservationId}}`
+- Body:
+  {
+    "status": "confirmed"
+  }
+- Allowed statuses: `pending`, `confirmed`, `cancelled`.
+- Expect: `200 OK` with updated record.
+
+Feedback Module
+---------------
+Step F1 – Submit feedback (customer or admin)
+- Method/URL: `POST {{baseUrl}}/feedback`
+- Body:
+  {
+    "rating": 5,
+    "comment": "Outstanding service!"
+  }
+- Expect: `201 Created` with `feedback` object.
+
+Step F2 – View all feedback (admin)
+- Method/URL: `GET {{baseUrl}}/feedback`
+- Expect: `200 OK` with `count` and array.
+
+Step F3 – View single feedback (admin or owner)
+- Method/URL: `GET {{baseUrl}}/feedback/{{feedbackId}}`
+- Expect: `200 OK` with populated customer reference.
+
+Orders Module
+-------------
+Step O1 – Create order (customer/admin)
+- Method/URL: `POST {{baseUrl}}/orders/create`
+- Body:
+  {
+    "orderType": "dine-in",
+    "reservationId": "{{reservationId}}",
+    "items": [
+      { "menuItem": "{{menuItemId1}}", "quantity": 2 },
+      { "menuItem": "{{menuItemId2}}", "quantity": 1 }
+    ]
+  }
+- Expect: `201 Created` with `data` containing total price.
+
+Step O2 – Get current user orders
+- Method/URL: `GET {{baseUrl}}/orders/user`
+- Optional query: `?customerId={{userId}}` (only if acting as admin for another user).
+- Expect: `200 OK` with populated items.
+
+Step O3 – Get all orders (admin)
+- Method/URL: `GET {{baseUrl}}/orders/all`
+- Optional queries: `?status=pending&orderType=takeaway`
+- Expect: `200 OK` array with customer + reservation details.
+
+Step O4 – Update order status (admin)
+- Method/URL: `PATCH {{baseUrl}}/orders/update/{{orderId}}`
+- Body:
+  {
+    "status": "completed"
+  }
+- Allowed statuses: `pending`, `preparing`, `completed`, `cancelled`.
+
+Step O5 – Add item to order (owner/admin)
+- Method/URL: `POST {{baseUrl}}/orders/{{orderId}}/items`
+- Body:
+  {
+    "menuItemId": "{{menuItemId}}",
+    "quantity": 1
+  }
+- Expect: `200 OK` with recalculated totals.
+
+Step O6 – Remove item from order (owner/admin)
+- Method/URL: `DELETE {{baseUrl}}/orders/{{orderId}}/items`
+- Body:
+  {
+    "menuItemId": "{{menuItemId}}"
+  }
+- Expect: `200 OK` when item removed.
+
+Step O7 – Delete order (owner/admin)
+- Method/URL: `DELETE {{baseUrl}}/orders/{{orderId}}`
+- Expect: `200 OK` success message.
+
+Smoke/Health Checks
+-------------------
+Step H1 – Ping root
+- `GET http://localhost:3000/` → verifies server is up.
+
+Step H2 – Test JSON endpoint
+- `GET http://localhost:3000/test` → expect `{ "message": "Test endpoint working" }`.
+
+Usage Notes
+-----------
+- Always refresh `authToken` after it expires (token lifetime is 1 hour).
+- Customer accounts can only access endpoints that explicitly allow `customer`.
+- Keep sample IDs (`{{menuId}}`, `{{orderId}}`, …) saved as Postman variables once created to chain steps quickly.
+

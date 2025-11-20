@@ -10,6 +10,7 @@ const reservationRoutes = require("./Routes/reservationRoutes");
 const feedBackRouter = require("./Routes/feedBackRouter");
 const orderRoutes = require("./Routes/orderRoutes");
 
+
 const app = express();
 
 // Middlewares
@@ -45,7 +46,7 @@ app.get("/test", (req, res) =>
 // 404 handler
 app.use((req, res) => res.status(404).json({ message: "Route not found" }));
 
-const PORT = process.env.PORT || 3000;
+const PORT =  3000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 module.exports = app;

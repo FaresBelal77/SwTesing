@@ -26,8 +26,8 @@ const reservationValidators = [
 // Customer: create reservation
 router.post(
   "/users/reservations",
-  authenticationMiddleware,
-  authorizationMiddleware(["customer"]),
+  //authenticationMiddleware,
+  authorizationMiddleware(["customer",'admin']),
   reservationValidators,
   reservationController.createReservation
 );
@@ -36,7 +36,7 @@ router.post(
 router.get(
   "/users/reservations",
   authenticationMiddleware,
-  authorizationMiddleware(["customer"]),
+  authorizationMiddleware(["customer",'admin']),
   reservationController.getUserReservations
 );
 
