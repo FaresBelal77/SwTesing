@@ -6,14 +6,14 @@ const mongoose = require('mongoose');
 /*import authRoutes from "./routes/authRoutes.js";
 import menuRoutes from "./routes/menuRoutes.js";
 import reservationRoutes from "./routes/reservationRoutes.js";
-import orderRoutes from "./routes/orderRoutes.js";
 import feedbackRoutes from "./routes/feedbackRoutes.js";*/
+const orderRoutes = require("./Routes/orderRoutes");
 
 const cors=require('cors');
 app.use(cors());
 
 app.use(express.json());
-mongoose.connect('mongodb+srv://testing:ambaleh@restaurant.pumi6d7.mongodb.net/?appName=Restaurant')
+mongoose.connect('mongodb+srv://testing:1234@restaurant.pumi6d7.mongodb.net/?appName=Restaurant')
 
 .then(() => {
     console.log("MongoDB has been connected");
@@ -26,8 +26,9 @@ mongoose.connect('mongodb+srv://testing:ambaleh@restaurant.pumi6d7.mongodb.net/?
 /*app.use("/api/auth", authRoutes);
 app.use("/api/menu", menuRoutes);
 app.use("/api/reservations", reservationRoutes);
-app.use("/api/orders", orderRoutes);
 app.use("/api/feedback", feedbackRoutes);*/
+
+app.use("/orders", orderRoutes);
 
 
 

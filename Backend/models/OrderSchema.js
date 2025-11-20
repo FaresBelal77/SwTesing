@@ -1,3 +1,5 @@
+const { Schema, model } = require("mongoose");
+
 const OrderSchema = new Schema(
     {
       customer: {
@@ -42,4 +44,4 @@ const OrderSchema = new Schema(
     { timestamps: true }
   );
   
-  export default model("Order", OrderSchema);
+module.exports = model("Order", OrderSchema);
