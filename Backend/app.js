@@ -18,6 +18,7 @@ const orderRoutes = require("./Routes/orderRoutes");
 
 app.use(cors());
 
+
 app.use(express.json());
 mongoose.connect('mongodb+srv://testing:1234@restaurant.pumi6d7.mongodb.net/?appName=Restaurant')
 
