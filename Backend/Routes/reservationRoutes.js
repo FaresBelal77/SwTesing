@@ -2,7 +2,7 @@ const express = require("express");
 const { body } = require("express-validator");
 const authenticationMiddleware = require("../Middleware/authenticationMiddleware");
 const authorizationMiddleware = require("../Middleware/authorizationMiddleware");
-const reservationController = require("../Components/reservationController");
+const reservationController = require("../Controllers/reservationController");
 
 const router = express.Router();
 
