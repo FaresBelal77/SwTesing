@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authAPI } from "../services/api";
-import Toolbar from "./Toolbar";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
+import "../Auth.css";
+import "../Register.css";
 
 export default function RegisterForm() {
   const [form, setForm] = useState({
@@ -40,56 +42,76 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative pt-16">
-      <Toolbar />
-      {/* Blurred background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#E8DDD4] via-[#F5F1EB] to-[#E8DDD4] opacity-90 blur-sm -z-10"></div>
-      <div className="flex-1 flex items-center justify-center p-6 relative z-10 min-h-[calc(100vh-4rem)]">
-        <div className="max-w-lg w-full p-12 bg-[#5C4A37] rounded-3xl shadow-2xl">
+    <div className="register-page">
+      <Navbar />
+      <div className="register-background"></div>
+      <div className="register-container">
+        <div className="register-card">
           {/* Title */}
-          <div className="text-center mb-10">
-            <h1 className="text-5xl font-bold text-white mb-4 tracking-wide">THE NEST BISTRO</h1>
+          <div className="register-title">
+            <h1>THE NEST BISTRO</h1>
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-2xl border border-red-300 text-sm">
+            <div className="register-error">
               {error}
             </div>
           )}
 
           {message && (
-            <div className="mb-6 p-4 bg-green-100 text-green-700 rounded-2xl border border-green-300 text-sm">
+            <div className="register-success">
               {message}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
+          <form onSubmit={handleSubmit} className="register-form">
+            <div style={{ position: "relative" }}>
+              <svg
+                className="auth-icon"
+                viewBox="0 0 24 24"
+                style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", zIndex: 1 }}
+              >
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+              </svg>
               <input
                 placeholder="NAME"
-                className="bg-[#F5F1EB] border-2 border-[#8B7355] p-5 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-[#D4C4B0] focus:border-[#D4C4B0] text-[#5C4A37] placeholder:text-gray-600 placeholder:font-light transition-all duration-200 text-lg"
+                className="register-input"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 required
               />
             </div>
 
-            <div>
+            <div style={{ position: "relative" }}>
+              <svg
+                className="auth-icon"
+                viewBox="0 0 24 24"
+                style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", zIndex: 1 }}
+              >
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+              </svg>
               <input
                 type="email"
                 placeholder="EMAIL"
-                className="bg-[#F5F1EB] border-2 border-[#8B7355] p-5 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-[#D4C4B0] focus:border-[#D4C4B0] text-[#5C4A37] placeholder:text-gray-600 placeholder:font-light transition-all duration-200 text-lg"
+                className="register-input"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 required
               />
             </div>
 
-            <div>
+            <div style={{ position: "relative" }}>
+              <svg
+                className="auth-icon"
+                viewBox="0 0 24 24"
+                style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)", zIndex: 1 }}
+              >
+                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
+              </svg>
               <input
                 type="password"
                 placeholder="PASSWORD"
-                className="bg-[#F5F1EB] border-2 border-[#8B7355] p-5 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-[#D4C4B0] focus:border-[#D4C4B0] text-[#5C4A37] placeholder:text-gray-600 placeholder:font-light transition-all duration-200 text-lg"
+                className="register-input"
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 required
@@ -97,30 +119,32 @@ export default function RegisterForm() {
             </div>
 
             <div>
+              <label className="admin-label">Role</label>
               <select
                 value={form.role}
                 onChange={(e) => setForm({ ...form, role: e.target.value })}
-                className="bg-[#F5F1EB] border-2 border-[#8B7355] p-5 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-[#D4C4B0] focus:border-[#D4C4B0] text-[#5C4A37] transition-all duration-200 text-lg"
+                className="register-select"
               >
                 <option value="customer">Customer</option>
+                <option value="admin">Admin</option>
               </select>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#F5F1EB] text-[#5C4A37] px-4 py-5 rounded-xl hover:bg-[#E8DDD4] disabled:bg-gray-400 font-medium transition-all duration-200 shadow-lg hover:shadow-xl text-xl transform hover:-translate-y-0.5 mt-4"
+              className="register-button"
             >
               {loading ? "Registering..." : "REGISTER"}
             </button>
           </form>
 
-          <div className="mt-8 text-center space-y-3">
-            <p className="text-base text-white">
+          <div className="register-bottom">
+            <p className="register-bottom-text">
               Already have an account?{" "}
               <button
                 onClick={() => navigate("/login")}
-                className="text-[#F5F1EB] hover:text-white hover:underline font-medium"
+                className="register-link"
               >
                 Sign In
               </button>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { orderAPI, menuAPI } from "../services/api";
 import { useAuth } from "../auth/AuthContext";
+import "../Orders.css";
 
 export default function Orders() {
   const { user } = useAuth();
@@ -106,168 +107,170 @@ export default function Orders() {
   };
 
   if (loading && orders.length === 0) {
-    return <div className="text-center">Loading orders...</div>;
+    return <div className="orders-loading">Loading orders...</div>;
   }
 
   return (
-    <div className="max-w-7xl mx-auto w-full">
-      <h1 className="text-3xl font-bold mb-6">My Orders</h1>
+    <div className="orders-page">
+      <div className="orders-container">
+        <h1 className="orders-title">My Orders</h1>
 
-      {/* Create Order Form */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 className="text-2xl font-semibold mb-4">Create New Order</h2>
+        {/* Create Order Form */}
+        <div className="order-form-card">
+          <h2 className="order-form-title">Create New Order</h2>
 
-        {error && (
-          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">{error}</div>
-        )}
+          {error && (
+            <div className="order-error">{error}</div>
+          )}
 
-        {message && (
-          <div className="mb-4 p-3 bg-green-100 text-green-700 rounded">
-            {message}
-          </div>
-        )}
+          {message && (
+            <div className="order-success">
+              {message}
+            </div>
+          )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block mb-2 font-medium">Order Type</label>
-            <select
-              value={orderForm.orderType}
-              onChange={(e) =>
-                setOrderForm({ ...orderForm, orderType: e.target.value })
-              }
-              className="border p-2 w-full rounded"
-            >
-              <option value="dine-in">Dine-in</option>
-              <option value="pre-order">Pre-order</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block mb-2 font-medium">Reservation ID (optional)</label>
-            <input
-              type="text"
-              value={orderForm.reservationId}
-              onChange={(e) =>
-                setOrderForm({ ...orderForm, reservationId: e.target.value })
-              }
-              className="border p-2 w-full rounded"
-              placeholder="Leave empty if no reservation"
-            />
-          </div>
-
-          <div>
-            <label className="block mb-2 font-medium">Menu Items</label>
-            {orderForm.items.map((item, index) => (
-              <div key={index} className="flex gap-2 mb-2">
-                <select
-                  value={item.menuItem}
-                  onChange={(e) =>
-                    handleItemChange(index, "menuItem", e.target.value)
-                  }
-                  className="border p-2 flex-1 rounded"
-                  required
-                >
-                  <option value="">Select menu item</option>
-                  {menuItems.map((menuItem) => (
-                    <option key={menuItem._id} value={menuItem._id}>
-                      {menuItem.name} - ${menuItem.price}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  type="number"
-                  min="1"
-                  value={item.quantity}
-                  onChange={(e) =>
-                    handleItemChange(index, "quantity", e.target.value)
-                  }
-                  className="border p-2 w-20 rounded"
-                  required
-                />
-                {orderForm.items.length > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveItem(index)}
-                    className="bg-red-500 text-white px-3 rounded"
-                  >
-                    Remove
-                  </button>
-                )}
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={handleAddItem}
-              className="mt-2 bg-gray-500 text-white px-4 py-2 rounded"
-            >
-              Add Item
-            </button>
-          </div>
-
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
-          >
-            Create Order
-          </button>
-        </form>
-      </div>
-
-      {/* Orders List */}
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold mb-4">Order History</h2>
-
-        {orders.length === 0 ? (
-          <p className="text-gray-600">No orders found</p>
-        ) : (
-          <div className="space-y-4">
-            {orders.map((order) => (
-              <div
-                key={order._id}
-                className="border p-4 rounded-lg hover:bg-gray-50"
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label className="order-label">Order Type</label>
+              <select
+                value={orderForm.orderType}
+                onChange={(e) =>
+                  setOrderForm({ ...orderForm, orderType: e.target.value })
+                }
+                className="order-select"
               >
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <p className="font-semibold">
-                      Order #{order._id.slice(-6).toUpperCase()}
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      {new Date(order.createdAt).toLocaleString()}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-bold text-lg">
-                      ${order.totalPrice?.toFixed(2) || "0.00"}
-                    </p>
-                    <p
-                      className={`text-sm font-semibold ${
-                        order.status === "completed"
-                          ? "text-green-600"
-                          : order.status === "cancelled"
-                          ? "text-red-600"
-                          : "text-yellow-600"
-                      }`}
-                    >
-                      {order.status}
-                    </p>
-                    <p className="text-sm text-gray-600">{order.orderType}</p>
-                  </div>
-                </div>
+                <option value="dine-in">Dine-in</option>
+                <option value="pre-order">Pre-order</option>
+              </select>
+            </div>
 
-                <div className="mt-3">
-                  <p className="font-medium mb-1">Items:</p>
-                  <ul className="list-disc list-inside text-sm">
-                    {order.items?.map((item, idx) => (
-                      <li key={idx}>
-                        {item.menuItem?.name || "Unknown"} x {item.quantity}
-                      </li>
+            <div>
+              <label className="order-label">Reservation ID (optional)</label>
+              <input
+                type="text"
+                value={orderForm.reservationId}
+                onChange={(e) =>
+                  setOrderForm({ ...orderForm, reservationId: e.target.value })
+                }
+                className="order-input"
+                placeholder="Leave empty if no reservation"
+              />
+            </div>
+
+            <div>
+              <label className="order-label">Menu Items</label>
+              {orderForm.items.map((item, index) => (
+                <div key={index} className="order-item-row">
+                  <select
+                    value={item.menuItem}
+                    onChange={(e) =>
+                      handleItemChange(index, "menuItem", e.target.value)
+                    }
+                    className="order-item-select"
+                    required
+                  >
+                    <option value="">Select menu item</option>
+                    {menuItems.map((menuItem) => (
+                      <option key={menuItem._id} value={menuItem._id}>
+                        {menuItem.name} - ${menuItem.price}
+                      </option>
                     ))}
-                  </ul>
+                  </select>
+                  <input
+                    type="number"
+                    min="1"
+                    value={item.quantity}
+                    onChange={(e) =>
+                      handleItemChange(index, "quantity", e.target.value)
+                    }
+                    className="order-quantity-input"
+                    required
+                  />
+                  {orderForm.items.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveItem(index)}
+                      className="order-button-remove"
+                    >
+                      Remove
+                    </button>
+                  )}
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+              <button
+                type="button"
+                onClick={handleAddItem}
+                className="order-button-add"
+              >
+                Add Item
+              </button>
+            </div>
+
+            <button
+              type="submit"
+              className="order-button"
+            >
+              Create Order
+            </button>
+          </form>
+        </div>
+
+        {/* Orders List */}
+        <div className="orders-list-card">
+          <h2 className="orders-list-title">Order History</h2>
+
+          {orders.length === 0 ? (
+            <p className="orders-empty">No orders found</p>
+          ) : (
+            <div>
+              {orders.map((order) => (
+                <div
+                  key={order._id}
+                  className="order-item"
+                >
+                  <div className="order-item-header">
+                    <div className="order-item-left">
+                      <p className="order-item-id">
+                        Order #{order._id.slice(-6).toUpperCase()}
+                      </p>
+                      <p className="order-item-date">
+                        {new Date(order.createdAt).toLocaleString()}
+                      </p>
+                    </div>
+                    <div className="order-item-right">
+                      <p className="order-item-price">
+                        ${order.totalPrice?.toFixed(2) || "0.00"}
+                      </p>
+                      <p
+                        className={`order-status ${
+                          order.status === "completed"
+                            ? "completed"
+                            : order.status === "cancelled"
+                            ? "cancelled"
+                            : "pending"
+                        }`}
+                      >
+                        {order.status}
+                      </p>
+                      <p className="order-type">{order.orderType}</p>
+                    </div>
+                  </div>
+
+                  <div className="order-items-list">
+                    <p className="order-items-title">Items:</p>
+                    <ul className="order-items-ul">
+                      {order.items?.map((item, idx) => (
+                        <li key={idx}>
+                          {item.menuItem?.name || "Unknown"} x {item.quantity}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

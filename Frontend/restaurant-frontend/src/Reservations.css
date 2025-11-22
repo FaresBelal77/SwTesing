@@ -1,0 +1,209 @@
+/* Reservations Page Styles */
+.reservations-page {
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.reservations-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.reservations-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #5c4a37;
+}
+
+/* Form Card */
+.reservation-form-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.reservation-form-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #5c4a37;
+}
+
+/* Form Inputs */
+.reservation-input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  font-size: 1rem;
+  color: #5c4a37;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.reservation-input:focus {
+  outline: none;
+  border-color: #8b7355;
+  box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.2);
+}
+
+.reservation-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  font-size: 1rem;
+  color: #5c4a37;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  font-family: inherit;
+  resize: vertical;
+}
+
+.reservation-textarea:focus {
+  outline: none;
+  border-color: #8b7355;
+  box-shadow: 0 0 0 3px rgba(139, 115, 85, 0.2);
+}
+
+/* Labels */
+.reservation-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #5c4a37;
+}
+
+/* Button */
+.reservation-button {
+  background-color: #8b7355;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-button:hover {
+  background-color: #6b5a47;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.reservation-button:active {
+  transform: scale(0.98);
+}
+
+/* Messages */
+.reservation-error {
+  background: #fee;
+  color: #c0392b;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ffb3b3;
+}
+
+.reservation-success {
+  background: #efe;
+  color: #27ae60;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #a3e4a3;
+}
+
+/* Reservations List Card */
+.reservations-list-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.reservations-list-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #5c4a37;
+}
+
+/* Reservation Item */
+.reservation-item {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.reservation-item:hover {
+  background: rgba(248, 248, 248, 0.8);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-item-detail {
+  margin-bottom: 0.5rem;
+  color: #5c4a37;
+}
+
+.reservation-item-label {
+  font-weight: 600;
+}
+
+.reservation-status {
+  font-weight: 600;
+}
+
+.reservation-status.confirmed {
+  color: #27ae60;
+}
+
+.reservation-status.cancelled {
+  color: #e74c3c;
+}
+
+.reservation-status.pending {
+  color: #f39c12;
+}
+
+.reservation-notes {
+  font-size: 0.875rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+/* Loading State */
+.reservations-loading {
+  text-align: center;
+  padding: 2rem;
+  color: #5c4a37;
+}
+
+/* Empty State */
+.reservations-empty {
+  color: #666;
+  text-align: center;
+  padding: 2rem;
+}
+

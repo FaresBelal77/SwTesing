@@ -1,0 +1,10 @@
+/* Auth Pages (Login/Register) Icon Styles */
+.auth-icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  color: #8b7355;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+

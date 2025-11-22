@@ -8,6 +8,10 @@ import Menu from "./pages/Menu";
 import Reservations from "./pages/Reservations";
 import Orders from "./pages/Orders";
 import Feedback from "./pages/Feedback";
+import AdminMenu from "./pages/AdminMenu";
+import AdminReservations from "./pages/AdminReservations";
+import AdminOrders from "./pages/AdminOrders";
+import AdminFeedback from "./pages/AdminFeedback";
 import "./App.css";
 
 // Protected Route Component
@@ -20,6 +24,25 @@ function ProtectedRoute({ children }) {
 
   if (!user) {
     return <Navigate to="/login" replace />;
+  }
+
+  return children;
+}
+
+// Admin Route Component
+function AdminRoute({ children }) {
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return <div className="text-center p-8">Loading...</div>;
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user.role !== "admin") {
+    return <Navigate to="/" replace />;
   }
 
   return children;
@@ -75,6 +98,40 @@ function AppRoutes() {
         <Route path="reservations" element={<Reservations />} />
         <Route path="orders" element={<Orders />} />
         <Route path="feedback" element={<Feedback />} />
+        
+        {/* Admin Routes */}
+        <Route
+          path="admin/menu"
+          element={
+            <AdminRoute>
+              <AdminMenu />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/reservations"
+          element={
+            <AdminRoute>
+              <AdminReservations />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/orders"
+          element={
+            <AdminRoute>
+              <AdminOrders />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="admin/feedback"
+          element={
+            <AdminRoute>
+              <AdminFeedback />
+            </AdminRoute>
+          }
+        />
       </Route>
 
       {/* Catch all - redirect to home */}

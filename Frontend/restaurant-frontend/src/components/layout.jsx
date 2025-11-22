@@ -1,6 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
-import Toolbar from "./Toolbar";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
 
 export default function Layout() {
@@ -8,8 +8,8 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-[#F5F1EB] via-[#E8DDD4] to-[#F5F1EB]">
-      {/* Toolbar - Fixed at very top */}
-      <Toolbar />
+      {/* Navbar - Fixed at very top */}
+      <Navbar />
       {/* Spacer to account for fixed toolbar */}
       <div className="h-16"></div>
 

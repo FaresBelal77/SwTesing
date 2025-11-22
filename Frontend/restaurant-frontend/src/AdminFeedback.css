@@ -1,0 +1,133 @@
+/* Admin Feedback Page Styles */
+.admin-feedback-page {
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.admin-feedback-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.admin-feedback-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #5c4a37;
+}
+
+/* Messages */
+.admin-error {
+  background: #fee;
+  color: #c0392b;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ffb3b3;
+}
+
+/* List Card */
+.admin-feedback-list-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.admin-feedback-list-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #5c4a37;
+}
+
+.admin-feedback-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-feedback-item {
+  background: rgba(255, 255, 255, 0.5);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.admin-feedback-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.admin-feedback-customer {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #5c4a37;
+  margin: 0 0 0.25rem 0;
+}
+
+.admin-feedback-email {
+  font-size: 0.875rem;
+  color: #666;
+  margin: 0;
+}
+
+.admin-feedback-rating {
+  text-align: right;
+}
+
+.admin-feedback-stars {
+  font-size: 1.25rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.admin-feedback-rating-value {
+  font-size: 0.875rem;
+  color: #8b7355;
+  font-weight: 600;
+}
+
+.admin-feedback-comment {
+  margin-bottom: 1rem;
+}
+
+.admin-feedback-comment-label {
+  font-weight: 600;
+  color: #5c4a37;
+  margin-bottom: 0.5rem;
+}
+
+.admin-feedback-comment-text {
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.admin-feedback-date {
+  font-size: 0.875rem;
+  color: #999;
+  margin: 0;
+  font-style: italic;
+}
+
+.admin-loading {
+  text-align: center;
+  padding: 2rem;
+  color: #5c4a37;
+}
+
+.admin-empty {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+

@@ -1,0 +1,116 @@
+/* Menu Page Styles */
+.menu-page {
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.menu-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.menu-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #5c4a37;
+}
+
+/* Menu Grid */
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .menu-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Menu Item Card */
+.menu-item-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.menu-item-card:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.menu-item-card:active {
+  transform: scale(0.98);
+}
+
+/* Menu Item Content */
+.menu-item-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #5c4a37;
+}
+
+.menu-item-description {
+  color: #666;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.menu-item-price {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: #8b7355;
+  margin-bottom: 0.5rem;
+}
+
+/* Category Badge */
+.menu-item-category {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  background: rgba(139, 115, 85, 0.1);
+  color: #8b7355;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Loading State */
+.menu-loading {
+  text-align: center;
+  padding: 2rem;
+  color: #5c4a37;
+  font-size: 1.125rem;
+}
+
+/* Error State */
+.menu-error {
+  text-align: center;
+  padding: 2rem;
+  color: #e74c3c;
+  font-size: 1.125rem;
+}
+
+/* Empty State */
+.menu-empty {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-size: 1.125rem;
+}
+

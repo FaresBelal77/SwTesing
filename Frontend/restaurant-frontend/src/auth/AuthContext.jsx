@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import { authAPI } from "../services/api";
 
 const AuthContext = createContext(null);
 
@@ -29,10 +30,7 @@ export function AuthProvider({ children }) {
 
   const login = async (credentials) => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/auth/login",
-        credentials
-      );
+      const response = await authAPI.login(credentials);
       
       if (response.data.token && response.data.user) {
         const { token, user: userData } = response.data;
@@ -45,19 +43,19 @@ export function AuthProvider({ children }) {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         
         setUser(userData);
-        return true;
+        return { success: true };
       }
-      return false;
+      return { success: false, message: "Invalid response from server" };
     } catch (error) {
       console.error("Login error:", error.response?.data || error.message);
-      alert(error.response?.data?.message || "Login failed");
-      return false;
+      const errorMessage = error.response?.data?.message || error.message || "Login failed";
+      return { success: false, message: errorMessage };
     }
   };
 
   const logout = async () => {
     try {
-      await axios.post("http://localhost:3000/api/auth/logout");
+      await authAPI.logout();
     } catch (error) {
       console.error("Logout error:", error);
     } finally {

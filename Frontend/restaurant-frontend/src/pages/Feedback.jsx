@@ -41,7 +41,7 @@ export default function Feedback() {
     <div className="max-w-7xl mx-auto w-full">
       <h1 className="text-3xl font-bold mb-6">Submit Feedback</h1>
 
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-gray-200/50">
         {error && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">{error}</div>
         )}
@@ -80,7 +80,7 @@ export default function Feedback() {
             <textarea
               value={form.comment}
               onChange={(e) => setForm({ ...form, comment: e.target.value })}
-              className="border p-2 w-full rounded"
+                className="bg-white/90 backdrop-blur-md border border-gray-300/50 p-3 w-full rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#8B7355]/30 focus:border-[#8B7355] text-[#5C4A37] transition-all duration-300 shadow-sm"
               rows="5"
               placeholder="Share your thoughts about your experience..."
             />
@@ -89,14 +89,14 @@ export default function Feedback() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
+            className="w-full bg-[#8B7355] text-white px-6 py-3 rounded-2xl hover:bg-[#6B5A47] disabled:bg-gray-400 disabled:opacity-50 font-semibold transition-all duration-300 shadow-lg hover:shadow-xl active:scale-[0.98]"
           >
             {loading ? "Submitting..." : "Submit Feedback"}
           </button>
         </form>
       </div>
 
-      <div className="mt-6 bg-blue-50 p-4 rounded-lg">
+      <div className="mt-6 bg-[#8B7355]/10 p-4 rounded-2xl border border-[#8B7355]/20">
         <p className="text-sm text-gray-700">
           Your feedback helps us improve our service. We appreciate your time and
           input!

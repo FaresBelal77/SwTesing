@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
-import Toolbar from "./Toolbar";
-import Footer from "./Footer";
+import "../Login.css";
+import "../Auth.css";
 
-export default function LoginForm() {
-  const { login } = useAuth();
+
+export default function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth();
+  
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -15,88 +17,90 @@ export default function LoginForm() {
     e.preventDefault();
     setError("");
     setLoading(true);
-    
+
     if (!form.email || !form.password) {
-      setError("Please fill in all fields");
+      setError("Please fill all fields");
       setLoading(false);
       return;
     }
 
-    const success = await login(form);
+    // Trim email and password to remove any whitespace
+    const trimmedCredentials = {
+      email: form.email.trim(),
+      password: form.password.trim()
+    };
+
+    const result = await login(trimmedCredentials);
     setLoading(false);
-    
-    if (success) {
+
+    if (result.success) {
       navigate("/");
     } else {
-      setError("Invalid email or password");
+      setError(result.message || "Invalid email or password");
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col relative pt-16">
-      <Toolbar />
-      {/* Blurred background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#E8DDD4] via-[#F5F1EB] to-[#E8DDD4] opacity-90 blur-sm -z-10"></div>
-      <div className="flex-1 flex items-center justify-center p-6 relative z-10 min-h-[calc(100vh-4rem)]">
-        <div className="max-w-lg w-full p-12 bg-[#5C4A37] rounded-3xl shadow-2xl">
-          {/* Title */}
-          <div className="text-center mb-10">
-            <h1 className="text-5xl font-bold text-white mb-4 tracking-wide">THE NEST BISTRO</h1>
-          </div>
-      
-          {error && (
-            <div className="mb-6 p-4 bg-red-100 text-red-700 rounded-2xl border border-red-300 text-sm">
-              {error}
-            </div>
-          )}
+    <div className="auth-container">
+      <div className="auth-card">
+        <h1 className="auth-title">THE NEST BISTRO</h1>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <input
-                type="email"
-                placeholder="USERNAME"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="bg-[#F5F1EB] border-2 border-[#8B7355] p-5 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-[#D4C4B0] focus:border-[#D4C4B0] text-[#5C4A37] placeholder:text-gray-600 placeholder:font-light transition-all duration-200 text-lg"
-                required
-              />
-            </div>
+        {error && <div className="auth-error">{error}</div>}
 
-            <div>
-              <input
-                type="password"
-                placeholder="PASSWORD"
-                value={form.password}
-                onChange={(e) => setForm({ ...form, password: e.target.value })}
-                className="bg-[#F5F1EB] border-2 border-[#8B7355] p-5 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-[#D4C4B0] focus:border-[#D4C4B0] text-[#5C4A37] placeholder:text-gray-600 placeholder:font-light transition-all duration-200 text-lg"
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-[#F5F1EB] text-[#5C4A37] px-4 py-5 rounded-xl hover:bg-[#E8DDD4] disabled:bg-gray-400 font-medium transition-all duration-200 shadow-lg hover:shadow-xl text-xl transform hover:-translate-y-0.5 mt-4"
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div style={{ position: "relative" }}>
+            <svg
+              className="auth-icon"
+              viewBox="0 0 24 24"
+              style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)" }}
             >
-              {loading ? "Logging in..." : "LOGIN"}
-            </button>
-          </form>
-
-          <div className="mt-8 text-center space-y-3">
-            <p className="text-base text-white hover:text-[#F5F1EB] cursor-pointer transition-colors">Forgot Password?</p>
-            <p className="text-base text-white">
-              New user?{" "}
-              <button
-                onClick={() => navigate("/register")}
-                className="text-[#F5F1EB] hover:text-white hover:underline font-medium"
-              >
-                Sign Up
-              </button>
-            </p>
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg>
+            <input
+              type="email"
+              placeholder="EMAIL"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              className="auth-input"
+              style={{ paddingLeft: "44px" }}
+            />
           </div>
-        </div>
+
+          <div style={{ position: "relative" }}>
+            <svg
+              className="auth-icon"
+              viewBox="0 0 24 24"
+              style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)" }}
+            >
+              <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
+            </svg>
+            <input
+              type="password"
+              placeholder="PASSWORD"
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              className="auth-input"
+              style={{ paddingLeft: "44px" }}
+            />
+          </div>
+
+          <button type="submit" className="auth-button">
+            {loading ? "Logging in..." : "LOGIN"}
+          </button>
+        </form>
+
+        <p className="auth-link">Forgot Password?</p>
+
+        <p className="auth-bottom">
+          New user?{" "}
+          <span
+            className="auth-text-button"
+            onClick={() => navigate("/register")}
+          >
+            Sign Up
+          </span>
+        </p>
       </div>
-      <Footer />
     </div>
   );
 }

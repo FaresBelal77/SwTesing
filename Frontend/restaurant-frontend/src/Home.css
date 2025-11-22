@@ -1,0 +1,116 @@
+/* Home Page Styles */
+.home-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.home-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.home-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #5c4a37;
+}
+
+.home-subtitle {
+  font-size: 1.25rem;
+  color: #8b7355;
+}
+
+/* Home Grid */
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+  .home-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Home Card */
+.home-card {
+  background-color: #8b7355;
+  color: white;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+  display: block;
+}
+
+.home-card:hover {
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.home-card:active {
+  transform: scale(0.98);
+}
+
+.home-card-content {
+  text-align: center;
+}
+
+.home-card-icon {
+  width: 24px;
+  height: 24px;
+  margin: 0 auto 1rem;
+  fill: currentColor;
+  color: white;
+}
+
+.home-card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.home-card-description {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+}
+
+/* Home Auth Buttons */
+.home-auth-container {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.home-auth-button {
+  background-color: #8b7355;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  border: none;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+.home-auth-button:hover {
+  background-color: #6b5a47;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.home-auth-button:active {
+  transform: scale(0.98);
+}
+
