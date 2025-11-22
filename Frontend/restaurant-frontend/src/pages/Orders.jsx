@@ -18,7 +18,7 @@ export default function Orders() {
   });
 
   useEffect(() => {
-    fetchOrders();
+    fetchOrders(true);
     fetchMenuItems();
   }, []);
 
@@ -32,13 +32,39 @@ export default function Orders() {
     }
   };
 
-  const fetchOrders = async () => {
+  const fetchOrders = async (clearErrors = false) => {
     try {
       setLoading(true);
+      if (clearErrors) {
+        setError("");
+      }
       const response = await orderAPI.getUserOrders();
-      setOrders(response.data.data || response.data || []);
+      console.log("Orders API response:", response);
+      console.log("Orders response data:", response.data);
+      
+      // Backend returns { message: "...", data: [...] }
+      let ordersData = [];
+      if (response.data) {
+        if (Array.isArray(response.data.data)) {
+          ordersData = response.data.data;
+        } else if (Array.isArray(response.data)) {
+          ordersData = response.data;
+        }
+      }
+      
+      console.log("Parsed orders:", ordersData);
+      setOrders(ordersData);
+      // Clear error on successful fetch
+      setError("");
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to load orders");
+      console.error("Error fetching orders:", err);
+      console.error("Error response:", err.response?.data);
+      // Only show error if we're not in the middle of creating an order
+      const errorMsg = err.response?.data?.message || "Failed to load orders";
+      if (clearErrors || !message) {
+        setError(errorMsg);
+      }
+      setOrders([]);
     } finally {
       setLoading(false);
     }
@@ -90,19 +116,28 @@ export default function Orders() {
         orderData.reservationId = orderForm.reservationId;
       }
 
-      await orderAPI.createOrder(orderData);
-      setMessage("Order created successfully!");
-      setOrderForm({
-        items: [{ menuItem: "", quantity: 1 }],
-        orderType: "dine-in",
-        reservationId: "",
-      });
-      fetchOrders();
+      const response = await orderAPI.createOrder(orderData);
+      console.log("Order created response:", response.data);
+      
+      if (response.data && response.data.message) {
+        setMessage("Order created successfully!");
+        setError(""); // Clear any previous errors
+        setOrderForm({
+          items: [{ menuItem: "", quantity: 1 }],
+          orderType: "dine-in",
+          reservationId: "",
+        });
+        // Refresh orders immediately and clear any errors
+        await fetchOrders(true);
+      }
     } catch (err) {
+      console.error("Create order error:", err);
+      console.error("Error response:", err.response?.data);
       setError(
         err.response?.data?.message ||
           "Failed to create order. Please check your menu items."
       );
+      setMessage(""); // Clear success message if there's an error
     }
   };
 

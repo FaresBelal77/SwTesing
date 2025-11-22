@@ -22,7 +22,22 @@ function ProtectedRoute({ children }) {
     return <div className="text-center p-8">Loading...</div>;
   }
 
-  if (!user) {
+  // Check both user state and localStorage as fallback
+  let currentUser = user;
+  if (!currentUser) {
+    try {
+      const token = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("user");
+      // Only use localStorage if we have both token and user (valid session)
+      if (token && storedUser) {
+        currentUser = JSON.parse(storedUser);
+      }
+    } catch (e) {
+      console.error("Error parsing stored user:", e);
+    }
+  }
+
+  if (!currentUser) {
     return <Navigate to="/login" replace />;
   }
 
@@ -37,11 +52,26 @@ function AdminRoute({ children }) {
     return <div className="text-center p-8">Loading...</div>;
   }
 
-  if (!user) {
+  // Check both user state and localStorage as fallback
+  let currentUser = user;
+  if (!currentUser) {
+    try {
+      const token = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("user");
+      // Only use localStorage if we have both token and user (valid session)
+      if (token && storedUser) {
+        currentUser = JSON.parse(storedUser);
+      }
+    } catch (e) {
+      console.error("Error parsing stored user:", e);
+    }
+  }
+
+  if (!currentUser) {
     return <Navigate to="/login" replace />;
   }
 
-  if (user.role !== "admin") {
+  if (currentUser.role !== "admin") {
     return <Navigate to="/" replace />;
   }
 
@@ -56,7 +86,27 @@ function PublicRoute({ children }) {
     return <div className="text-center p-8">Loading...</div>;
   }
 
-  if (user) {
+  // Check both user state and localStorage as fallback
+  let currentUser = user;
+  if (!currentUser) {
+    try {
+      const token = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("user");
+      // Only redirect if we have both token and user (valid session)
+      if (token && storedUser) {
+        currentUser = JSON.parse(storedUser);
+      }
+    } catch (e) {
+      console.error("Error parsing stored user:", e);
+    }
+  }
+
+  if (currentUser) {
+    // Redirect admins to admin menu, regular users to home
+    // Case-insensitive role comparison
+    if (currentUser.role?.toLowerCase() === "admin") {
+      return <Navigate to="/admin/menu" replace />;
+    }
     return <Navigate to="/" replace />;
   }
 

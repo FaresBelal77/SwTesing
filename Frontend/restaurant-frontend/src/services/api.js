@@ -8,6 +8,7 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true, // Enable cookies if needed in future
 });
 
 // Request interceptor to add token
@@ -44,6 +45,7 @@ export const authAPI = {
   register: (userData) => api.post("/auth/register", userData),
   logout: () => api.post("/auth/logout"),
   forgetPassword: (data) => api.put("/auth/forgetPassword", data),
+  getMe: () => api.get("/auth/me"), // Get current user
 };
 
 // Menu API

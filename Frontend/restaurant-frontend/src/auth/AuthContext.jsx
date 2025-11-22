@@ -9,31 +9,67 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check for stored token on mount
+    // Check for stored token on mount and verify it
     const token = localStorage.getItem("token");
     const userData = localStorage.getItem("user");
     
     if (token && userData) {
       try {
         const parsedUser = JSON.parse(userData);
-        setUser(parsedUser);
-        // Set default axios header
+        // Verify token is still valid by calling /me endpoint
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        
+        // Try to verify token with backend
+        authAPI.getMe()
+          .then((response) => {
+            if (response.data.user) {
+              // Token is valid, update user data
+              const freshUser = response.data.user;
+              setUser(freshUser);
+              localStorage.setItem("user", JSON.stringify(freshUser));
+            } else {
+              // Invalid token, clear storage
+              localStorage.removeItem("token");
+              localStorage.removeItem("user");
+              delete axios.defaults.headers.common["Authorization"];
+            }
+          })
+          .catch((error) => {
+            console.error("Token verification failed:", error);
+            // Token is invalid, clear storage
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            delete axios.defaults.headers.common["Authorization"];
+          })
+          .finally(() => {
+            setLoading(false);
+          });
       } catch (error) {
         console.error("Error parsing user data:", error);
         localStorage.removeItem("token");
         localStorage.removeItem("user");
+        setLoading(false);
       }
+    } else {
+      setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   const login = async (credentials) => {
     try {
+      console.log("Attempting login with credentials:", { email: credentials.email });
       const response = await authAPI.login(credentials);
       
-      if (response.data.token && response.data.user) {
-        const { token, user: userData } = response.data;
+      console.log("Full login response:", response); // Debug log
+      console.log("Login response data:", response.data); // Debug log
+      
+      // Check for token and user in response
+      const token = response.data.token;
+      const userData = response.data.user;
+      
+      if (token && userData) {
+        console.log("User data from login:", userData); // Debug log
+        console.log("User role:", userData.role); // Debug log
         
         // Store token and user
         localStorage.setItem("token", token);
@@ -42,12 +78,26 @@ export function AuthProvider({ children }) {
         // Set axios default header
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         
+        // Update user state immediately
         setUser(userData);
-        return { success: true };
+        
+        // Force a synchronous state update by reading from localStorage
+        // This ensures the state is available immediately
+        const storedUser = JSON.parse(localStorage.getItem("user"));
+        console.log("Stored user in localStorage:", storedUser); // Debug log
+        console.log("User state should be updated now"); // Debug log
+        
+        console.log("Login successful, user role:", userData.role); // Debug log
+        return { success: true, user: userData };
       }
+      console.error("Invalid response format - missing token or user:", response.data);
       return { success: false, message: "Invalid response from server" };
     } catch (error) {
-      console.error("Login error:", error.response?.data || error.message);
+      console.error("Login error details:", {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status
+      });
       const errorMessage = error.response?.data?.message || error.message || "Login failed";
       return { success: false, message: errorMessage };
     }

@@ -30,13 +30,33 @@ export default function Login() {
       password: form.password.trim()
     };
 
-    const result = await login(trimmedCredentials);
-    setLoading(false);
+    try {
+      const result = await login(trimmedCredentials);
+      setLoading(false);
 
-    if (result.success) {
-      navigate("/");
-    } else {
-      setError(result.message || "Invalid email or password");
+      console.log("Login result:", result); // Debug log
+
+      if (result.success && result.user) {
+        console.log("Login successful, user role:", result.user.role);
+        // Navigate immediately - routes will check localStorage if state isn't ready
+        // Use a small delay to ensure localStorage is written
+        setTimeout(() => {
+          if (result.user.role === "admin") {
+            console.log("Admin login detected, redirecting to /admin/menu");
+            navigate("/admin/menu", { replace: true });
+          } else {
+            console.log("Regular user login, redirecting to /");
+            navigate("/", { replace: true });
+          }
+        }, 50);
+      } else {
+        console.error("Login failed:", result);
+        setError(result.message || "Invalid email or password");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setLoading(false);
+      setError("An error occurred during login. Please try again.");
     }
   };
 
