@@ -6,7 +6,7 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 64px;
+    height: 40px;
     z-index: 9999;
     width: 100%;
     display: flex;
@@ -17,8 +17,10 @@
   /* Inner layout */
   .navbar-container {
     width: 100%;
+    max-width: 1200px;
     height: 100%;
-    padding: 0 24px;
+    margin: 0 auto;
+    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -28,15 +30,15 @@
   .nav-btn {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
+    gap: 4px;
+    padding: 4px 10px;
     background: transparent;
     border: none;
     cursor: pointer;
     color: #F5E9D3; /* cream */
     font-weight: 500;
-    font-size: 16px;
-    border-radius: 12px;
+    font-size: 13px;
+    border-radius: 6px;
     transition: all 0.2s ease;
     text-decoration: none;
   }

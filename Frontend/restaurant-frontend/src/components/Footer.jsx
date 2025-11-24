@@ -3,13 +3,15 @@ import "../Footer.css";
 export default function Footer() {
   return (
     <footer className="footer">
-      <div className="footer-container">
-        <div className="footer-content">
-          <div>
-            <p className="footer-copyright">© 2025 Restaurant Portal. All rights reserved.</p>
+      {/* Bottom Bar */}
+      <div className="footer-bottom-bar">
+        <div className="footer-bottom-container">
+          <div className="footer-bottom-left">
+            <span>SHOP IN: UNITED STATES</span>
+            <button className="footer-change-country">Change Country</button>
           </div>
-          <div className="footer-social">
-            <p className="footer-social-text">Follow us:</p>
+          <div className="footer-bottom-center">
+            <span className="footer-follow-text">FOLLOW US</span>
             <div className="footer-social-icons">
               <a href="#" className="footer-social-link" aria-label="Facebook">
                 <svg className="footer-social-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -27,6 +29,9 @@ export default function Footer() {
                 </svg>
               </a>
             </div>
+          </div>
+          <div className="footer-bottom-right">
+            <span>COPYRIGHT © 2025 RESTAURANT PORTAL</span>
           </div>
         </div>
       </div>

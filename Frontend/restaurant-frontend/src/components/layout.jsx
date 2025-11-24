@@ -11,10 +11,10 @@ export default function Layout() {
       {/* Navbar - Fixed at very top */}
       <Navbar />
       {/* Spacer to account for fixed toolbar */}
-      <div className="h-16"></div>
+      <div className="h-10"></div>
 
       {/* Main Content - Fitted for laptop size */}
-      <main className="flex-1 p-6 container mx-auto max-w-7xl">
+      <main className="flex-1 p-6 container mx-auto max-w-7xl w-full">
         <Outlet />
       </main>
 

@@ -37,10 +37,17 @@ a:hover {
   color: var(--nude-darker);
 }
 
+html {
+  height: auto;
+  overflow-y: auto;
+}
+
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  height: auto;
+  overflow-y: auto;
   background-color: var(--nude-cream);
   color: var(--nude-text);
 }

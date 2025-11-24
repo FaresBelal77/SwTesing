@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  padding-top: 4rem;
+  padding-top: 2.5rem;
 }
 
 .register-background {
@@ -24,7 +24,6 @@
   padding: 2rem;
   position: relative;
   z-index: 1;
-  min-height: calc(100vh - 4rem);
 }
 
 /* Brown card/frame */
