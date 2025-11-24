@@ -26,8 +26,9 @@ mongoose
   .connect(mongoUri)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => {
-    console.error("MongoDB connection error:", err);
-    process.exit(1);
+    console.error("MongoDB connection error:", err.message);
+    console.error("Server will continue but database operations will fail.");
+    console.error("Please ensure MongoDB is running or update DB_URL in .env file");
   });
 
 // Routes
@@ -46,7 +47,7 @@ app.get("/test", (req, res) =>
 // 404 handler
 app.use((req, res) => res.status(404).json({ message: "Route not found" }));
 
-const PORT =  3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 module.exports = app;
