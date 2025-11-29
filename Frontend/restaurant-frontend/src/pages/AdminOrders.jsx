@@ -16,10 +16,29 @@ export default function AdminOrders() {
   const fetchOrders = async () => {
     try {
       setLoading(true);
+      setError(""); // Clear any previous errors
       const response = await orderAPI.getAllOrders();
-      setOrders(response.data.data || response.data || []);
+      console.log("Admin Orders API response:", response);
+      console.log("Admin Orders response data:", response.data);
+      
+      // Backend returns { message: "...", data: [...] }
+      let ordersData = [];
+      if (response.data) {
+        if (Array.isArray(response.data.data)) {
+          ordersData = response.data.data;
+        } else if (Array.isArray(response.data)) {
+          ordersData = response.data;
+        }
+      }
+      
+      console.log("Parsed admin orders:", ordersData);
+      setOrders(ordersData);
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to load orders");
+      console.error("Error fetching admin orders:", err);
+      console.error("Error response:", err.response?.data);
+      const errorMsg = err.response?.data?.message || err.message || "Failed to load orders";
+      setError(errorMsg);
+      setOrders([]); // Clear orders on error
     } finally {
       setLoading(false);
     }
