@@ -8,9 +8,9 @@ const secretKey = process.env.SECRET_KEY || "1234";
 
 exports.register = async (req, res) => {
     try {
-        const { name, email, password, role } = req.body;
+        const { name, email, password } = req.body;
 
-        if (!name || !email || !password || !role) {
+        if (!name || !email || !password) {
             return res.status(400).json({ message: "Provide all fields " });
         }
         
@@ -23,7 +23,7 @@ exports.register = async (req, res) => {
             name,
             email,
             password: hashedPassword,
-            role
+            role: "customer" // Force all registrations to be customers only
         });
 
         await newUser.save();
