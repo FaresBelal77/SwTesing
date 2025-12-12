@@ -11,7 +11,6 @@ export default function RegisterForm() {
     name: "",
     email: "",
     password: "",
-    role: "customer",
   });
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -116,18 +115,6 @@ export default function RegisterForm() {
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 required
               />
-            </div>
-
-            <div>
-              <label className="admin-label">Role</label>
-              <select
-                value={form.role}
-                onChange={(e) => setForm({ ...form, role: e.target.value })}
-                className="register-select"
-              >
-                <option value="customer">Customer</option>
-                <option value="admin">Admin</option>
-              </select>
             </div>
 
             <button

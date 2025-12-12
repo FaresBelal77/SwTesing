@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
 
 // Routers
@@ -39,13 +40,23 @@ app.use("/api/feedback", feedBackRouter);
 app.use("/api/orders", orderRoutes);
 
 // Health/Test endpoints
-app.get("/", (req, res) => res.send("Server is running"));
-app.get("/test", (req, res) =>
+app.get("/api/test", (req, res) =>
   res.json({ message: "Test endpoint working" })
 );
 
-// 404 handler
-app.use((req, res) => res.status(404).json({ message: "Route not found" }));
+// Serve static files from the React app in production
+const frontendBuildPath = path.join(__dirname, "../Frontend/restaurant-frontend/dist");
+app.use(express.static(frontendBuildPath));
+
+// The "catchall" handler: for any request that doesn't match an API route,
+// send back React's index.html file (for client-side routing)
+app.get("*", (req, res) => {
+  // Don't serve index.html for API routes
+  if (req.path.startsWith("/api")) {
+    return res.status(404).json({ message: "Route not found" });
+  }
+  res.sendFile(path.join(frontendBuildPath, "index.html"));
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
