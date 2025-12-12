@@ -15,10 +15,16 @@ const ReservationSchema = new mongoose.Schema(
       enum: ["pending", "confirmed", "cancelled"],
       default: "pending",
     },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+    notes: {
+      type: String,
+      maxlength: 240,
+    },
   },
   { timestamps: true }
 );
-
-
 
 module.exports = mongoose.model("Reservation", ReservationSchema);

@@ -59,13 +59,14 @@ const menuController = {
         if (category) filter.category = category;
         if (typeof available !== 'undefined') filter.available = available === 'true';
         if (search) filter.$or = [{ name: new RegExp(search, 'i') }, { description: new RegExp(search, 'i') }];
-  
+
         const items = await MenuItem.find(filter)
           .sort({ category: 1, name: 1 })
           .limit(Math.min(parseInt(limit, 10) || 50, 200))
           .skip(parseInt(skip, 10) || 0);
-  
-        return res.json(items);
+
+        // Return array directly (not wrapped in object) for public API
+        return res.status(200).json(items);
       } catch (err) {
         console.error('listMenuItems error', err);
         return res.status(500).json({ message: 'Server error', error: err.message });

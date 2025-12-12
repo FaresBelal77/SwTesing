@@ -27,18 +27,24 @@ const getNormalizedMenuItemId = (menuItem) => {
 
 const calculateOrderTotal = async (items = []) => {
   if (!Array.isArray(items) || items.length === 0) {
-    throw new Error("Order items are required.");
+    const error = new Error("Order items are required.");
+    error.statusCode = 400;
+    throw error;
   }
 
   const normalizedItems = items.map((item) => {
     const normalizedQuantity = Number(item.quantity);
 
     if (!item.menuItem) {
-      throw new Error("Each order item must include a menuItem id.");
+      const error = new Error("Each order item must include a menuItem id.");
+      error.statusCode = 400;
+      throw error;
     }
 
     if (Number.isNaN(normalizedQuantity) || normalizedQuantity <= 0) {
-      throw new Error("Each order item must have a quantity greater than zero.");
+      const error = new Error("Each order item must have a quantity greater than zero.");
+      error.statusCode = 400;
+      throw error;
     }
 
     return {
@@ -51,7 +57,9 @@ const calculateOrderTotal = async (items = []) => {
   const menuItems = await MenuItem.find({ _id: { $in: menuItemIds } });
 
   if (menuItems.length !== menuItemIds.length) {
-    throw new Error("One or more menu items do not exist.");
+    const error = new Error("One or more menu items do not exist.");
+    error.statusCode = 400;
+    throw error;
   }
 
   const priceMap = menuItems.reduce((acc, menuItem) => {
@@ -62,7 +70,9 @@ const calculateOrderTotal = async (items = []) => {
   return normalizedItems.reduce((total, item) => {
     const unitPrice = priceMap[item.menuItem];
     if (typeof unitPrice !== "number") {
-      throw new Error("Unable to determine price for one of the items.");
+      const error = new Error("Unable to determine price for one of the items.");
+      error.statusCode = 400;
+      throw error;
     }
 
     return total + unitPrice * item.quantity;
@@ -102,7 +112,7 @@ const recalculateOrderTotalAndSave = async (order) => {
 exports.createOrder = asyncHandler(async (req, res) => {
   const { items, orderType = "dine-in", reservationId } = req.body;
   const customerId =
-    req.user?._id || req.user?.id || req.body.customerId;
+    req.user?.id || req.user?._id || req.body.customerId;
   if (!customerId) {
     return res
       .status(400)
@@ -140,7 +150,7 @@ exports.createOrder = asyncHandler(async (req, res) => {
 });
 
 exports.getUserOrders = asyncHandler(async (req, res) => {
-  const customerId = req.user?._id || req.query.customerId;
+  const customerId = req.user?.id || req.user?._id || req.query.customerId;
 
   if (!customerId) {
     return res.status(400).json({ message: "Customer id is required." });

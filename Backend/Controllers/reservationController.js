@@ -16,7 +16,13 @@ const handleValidationErrors = (req, res) => {
   return false;
 };
 
-const resolveCustomerId = (user) => user?.id || user?._id;
+const resolveCustomerId = (user) => {
+  // Handle both string (from JWT) and ObjectId formats
+  const id = user?.id || user?._id;
+  if (!id) return null;
+  // Convert to string for consistent querying (Mongoose will handle conversion)
+  return id.toString ? id.toString() : id;
+};
 
 const reservationController = {
   createReservation: async (req, res) => {
@@ -48,7 +54,8 @@ const reservationController = {
         date,
         time,
         numberOfGuests,
-        notes,
+        notes: notes || undefined,
+        isActive: true, // Set isActive for new reservations
       });
 
       return res.status(201).json({

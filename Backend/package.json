@@ -5,7 +5,15 @@
   "scripts": {
     "dev": "node app.js",
     "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test jest --setupFilesAfterEnv=./__tests__/setup.js --runInBand",
+    "test:watch": "cross-env NODE_ENV=test jest --watch --setupFilesAfterEnv=./__tests__/setup.js --runInBand",
+    "test:coverage": "cross-env NODE_ENV=test jest --coverage --setupFilesAfterEnv=./__tests__/setup.js --runInBand",
+    "test:auth": "cross-env NODE_ENV=test jest --setupFilesAfterEnv=./__tests__/setup.js --runInBand __tests__/auth.test.js",
+    "test:reservation": "cross-env NODE_ENV=test jest --setupFilesAfterEnv=./__tests__/setup.js --runInBand __tests__/reservation.test.js",
+    "test:menu": "cross-env NODE_ENV=test jest --setupFilesAfterEnv=./__tests__/setup.js --runInBand __tests__/menu.test.js",
+    "test:order": "cross-env NODE_ENV=test jest --setupFilesAfterEnv=./__tests__/setup.js --runInBand __tests__/order.test.js",
+    "test:feedback": "cross-env NODE_ENV=test jest --setupFilesAfterEnv=./__tests__/setup.js --runInBand __tests__/feedback.test.js",
+    "test:admin": "cross-env NODE_ENV=test jest --setupFilesAfterEnv=./__tests__/setup.js --runInBand __tests__/admin.test.js"
   },
   "keywords": [],
   "author": "",
@@ -22,5 +30,10 @@
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.20.0"
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "jest": "^30.2.0",
+    "supertest": "^7.1.4"
   }
 }
