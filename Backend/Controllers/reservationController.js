@@ -64,7 +64,7 @@ const reservationController = {
       });
     } catch (error) {
       console.error("createReservation error:", error);
-      return res.status(500).json({ message: "Unable to create reservation"  + 'el7a2ona'});
+      return res.status(500).json({ message: "Unable to create reservation" });
     }
   },
 
